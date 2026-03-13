@@ -1,0 +1,1104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaroIX EUR Aggregate 1-3 Year Bond Index - Backtest Report</title>
+    <style>
+        :root {
+            --bg: #f7f8fc;
+            --card: #ffffff;
+            --text: #1f2a44;
+            --muted: #4C61BF;
+            --border: #C2C2C2;
+            --accent: #5A73D8;
+            --accent-soft: #A0B4FF;
+            --shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 52px 20px 48px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 28px 30px;
+            margin-bottom: 22px;
+        }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .hero-logo-wrap {
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            min-width: 140px;
+        }
+
+        .hero-logo {
+            max-height: 42px;
+            max-width: 180px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .hero-logo-fallback {
+            min-width: 120px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 16px;
+            padding: 0 14px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        h2 {
+            color: var(--text);
+        }
+
+        h3 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        .hero-subtitle {
+            color: var(--accent);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.2px;
+        }
+
+        .hero-description {
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 1250px;
+            margin: 0;
+        }
+
+        .section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .section h2 {
+            margin: 0 0 16px;
+            font-size: 20px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .metric-label {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .chart-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 12px;
+        }
+
+        .chart-box {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table.report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: white;
+        }
+
+        table.report-table.fixed-layout {
+            table-layout: fixed;
+        }
+
+        .report-table th {
+            text-align: left;
+            background: #eef2ff;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 12px;
+            font-weight: 700;
+        }
+
+        .report-table td {
+            border-bottom: 1px solid #eef2f7;
+            padding: 10px 12px;
+            color: var(--text);
+        }
+
+        .report-table th,
+        .report-table td {
+            word-wrap: break-word;
+        }
+
+
+        .report-table th:first-child,
+        .report-table td:first-child {
+            text-align: left;
+        }
+        
+        .report-table th:not(:first-child),
+        .report-table td:not(:first-child) {
+            text-align: center;
+        }
+
+        .report-table tr:hover td {
+            background: #fafcff;
+        }
+
+        .footer {
+            color: #4f5f7a;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 8px 2px 0;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        @media (max-width: 980px) {
+            .chart-grid-2,
+            .two-col 
+            .three-col{
+                grid-template-columns: 1fr;
+            }
+
+            .hero-header {
+                flex-direction: column-reverse;
+                gap: 16px;
+            }
+
+            .hero-logo-wrap {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .hero-logo {
+                max-height: 38px;
+                max-width: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        
+    <div class="hero">
+        <div class="hero-header">
+            <div class="hero-text">
+                <h1>NaroIX EUR Aggregate 1-3 Year Bond Index</h1>
+                <div class="hero-subtitle">Index Backtest Report</div>
+                <div class="hero-description">
+                    The NaroIX EUR Aggregate 1-3 Year Bond Index tracks the performance of a diversified universe
+                    of EUR-denominated investment-grade government, corporate, agency, local authority, and supranational
+                    bonds. It is designed to provide EUR aggregate-like exposure while maintaining a short-duration
+                    profile aligned with savings-oriented risk objectives.
+                </div>
+            </div>
+            <div class="hero-logo-wrap">
+                <img src="data:image/png;base64,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" alt="NaroIQ logo" class="hero-logo">
+            </div>
+        </div>
+    </div>
+    
+
+        <div class="section">
+            <h2>Backtest Overview</h2>
+            <div class="metric-grid">
+                
+    <div class="metric-card">
+        <div class="metric-label">Start Date</div>
+        <div class="metric-value">2021-01-29</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">End Date</div>
+        <div class="metric-value">2026-02-27</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Observations</div>
+        <div class="metric-value">1,324</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Rebalances</div>
+        <div class="metric-value">62</div>
+    </div>
+    
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Performance Metrics</h2>
+            <div class="metric-grid">
+                
+    <div class="metric-card">
+        <div class="metric-label">Current NAV</div>
+        <div class="metric-value">1.0520</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Total Return</div>
+        <div class="metric-value">5.20%</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Annualized Return</div>
+        <div class="metric-value">1.00%</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Volatility</div>
+        <div class="metric-value">1.14%</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Max Drawdown</div>
+        <div class="metric-value">-4.89%</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Sharpe</div>
+        <div class="metric-value">0.85</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Avg Turnover</div>
+        <div class="metric-value">15.59%</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Avg # Bonds</div>
+        <div class="metric-value">1,551</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Avg # Issuers</div>
+        <div class="metric-value">652</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Weighted Avg Yield</div>
+        <div class="metric-value">1.82</div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="metric-label">Weighted Avg TTM</div>
+        <div class="metric-value">1.74y</div>
+    </div>
+    
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Portfolio Summary</h2>
+            <div class="three-col">
+                <div>
+                    <h3>Ratios</h3>
+                    <div class="table-wrap">
+                        <table class="dataframe report-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Start Date</td>
+      <td>2021-01-29</td>
+    </tr>
+    <tr>
+      <td>End Date</td>
+      <td>2026-02-27</td>
+    </tr>
+    <tr>
+      <td>Max Drawdown</td>
+      <td>-4.89%</td>
+    </tr>
+    <tr>
+      <td>Sharpe Ratio</td>
+      <td>0.85</td>
+    </tr>
+    <tr>
+      <td>Calmar Ratio</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <td>Positive Month Ratio</td>
+      <td>62.30%</td>
+    </tr>
+    <tr>
+      <td>Latest NAV</td>
+      <td>1.0520</td>
+    </tr>
+  </tbody>
+</table>
+                    </div>
+                </div>
+                <div>
+                    <h3>Returns</h3>
+                    <div class="table-wrap">
+                        <table class="dataframe report-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cumulative Return</td>
+      <td>5.20%</td>
+    </tr>
+    <tr>
+      <td>Annualized Return Since Inception</td>
+      <td>0.97%</td>
+    </tr>
+    <tr>
+      <td>Trailing 1Y Return</td>
+      <td>2.65%</td>
+    </tr>
+    <tr>
+      <td>Trailing 3Y Return</td>
+      <td>9.42%</td>
+    </tr>
+    <tr>
+      <td>Trailing 5Y Return</td>
+      <td>5.35%</td>
+    </tr>
+    <tr>
+      <td>Best Month Return</td>
+      <td>0.93%</td>
+    </tr>
+    <tr>
+      <td>Worst Month Return</td>
+      <td>-1.28%</td>
+    </tr>
+  </tbody>
+</table>
+                    </div>
+                </div>
+                <div>
+                    <h3>Volatility</h3>
+                    <div class="table-wrap">
+                        <table class="dataframe report-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Annualized Volatility Since Inception</td>
+      <td>1.14%</td>
+    </tr>
+    <tr>
+      <td>Trailing 1Y Annualized Volatility</td>
+      <td>0.55%</td>
+    </tr>
+    <tr>
+      <td>Trailing 3Y Annualized Volatility</td>
+      <td>0.92%</td>
+    </tr>
+    <tr>
+      <td>Trailing 5Y Annualized Volatility</td>
+      <td>1.17%</td>
+    </tr>
+  </tbody>
+</table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Report Charts</h2>
+            <div class="chart-grid-2">
+                <div class="chart-box"><div>                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.4.0.min.js" integrity="sha256-KEmPoupLpFyGMyGAiOsiNDbKDKAvxXAn/W+oQa0ZAfk=" crossorigin="anonymous"></script>                <div id="324378be-fafb-47d0-be42-ddd234e0451c" class="plotly-graph-div" style="height:420px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("324378be-fafb-47d0-be42-ddd234e0451c")) {                    Plotly.newPlot(                        "324378be-fafb-47d0-be42-ddd234e0451c",                        [{"line":{"color":"#C2C2C2","width":2.5},"mode":"lines","name":"Weighted Avg TTM","x":["2021-01-29T00:00:00.000000000","2021-02-26T00:00:00.000000000","2021-03-31T00:00:00.000000000","2021-04-30T00:00:00.000000000","2021-05-31T00:00:00.000000000","2021-06-30T00:00:00.000000000","2021-07-30T00:00:00.000000000","2021-08-31T00:00:00.000000000","2021-09-30T00:00:00.000000000","2021-10-29T00:00:00.000000000","2021-11-30T00:00:00.000000000","2021-12-31T00:00:00.000000000","2022-01-31T00:00:00.000000000","2022-02-28T00:00:00.000000000","2022-03-31T00:00:00.000000000","2022-04-29T00:00:00.000000000","2022-05-31T00:00:00.000000000","2022-06-30T00:00:00.000000000","2022-07-29T00:00:00.000000000","2022-08-31T00:00:00.000000000","2022-09-30T00:00:00.000000000","2022-10-31T00:00:00.000000000","2022-11-30T00:00:00.000000000","2022-12-30T00:00:00.000000000","2023-01-31T00:00:00.000000000","2023-02-28T00:00:00.000000000","2023-03-31T00:00:00.000000000","2023-04-28T00:00:00.000000000","2023-05-31T00:00:00.000000000","2023-06-30T00:00:00.000000000","2023-07-31T00:00:00.000000000","2023-08-31T00:00:00.000000000","2023-09-29T00:00:00.000000000","2023-10-31T00:00:00.000000000","2023-11-30T00:00:00.000000000","2023-12-29T00:00:00.000000000","2024-01-31T00:00:00.000000000","2024-02-29T00:00:00.000000000","2024-03-29T00:00:00.000000000","2024-04-30T00:00:00.000000000","2024-05-31T00:00:00.000000000","2024-06-28T00:00:00.000000000","2024-07-31T00:00:00.000000000","2024-08-30T00:00:00.000000000","2024-09-30T00:00:00.000000000","2024-10-31T00:00:00.000000000","2024-11-29T00:00:00.000000000","2024-12-31T00:00:00.000000000","2025-01-31T00:00:00.000000000","2025-02-28T00:00:00.000000000","2025-03-31T00:00:00.000000000","2025-04-30T00:00:00.000000000","2025-05-30T00:00:00.000000000","2025-06-30T00:00:00.000000000","2025-07-31T00:00:00.000000000","2025-08-29T00:00:00.000000000","2025-09-30T00:00:00.000000000","2025-10-31T00:00:00.000000000","2025-11-28T00:00:00.000000000","2025-12-31T00:00:00.000000000","2026-01-30T00:00:00.000000000","2026-02-27T00:00:00.000000000"],"y":{"dtype":"f8","bdata":"LnbYlZSX+z+RRGq+nY37P49KdNc\u002f2fs\u002fNmdAFlb5+z9\u002fs0dH\u002fyj8PxWtW0kBwfs\u002fPeoSYBGO+z+i\u002fRoSehb7P2pfzo391\u002fs\u002fbksLTJUj\u002fD9HRcsmLL77P70Dat0QQ\u002fs\u002fKFnOjPhC+z\u002fY\u002fh3wRED7PxFAlkfY\u002fPs\u002fBTbnbXA8\u002fD+3kLcCvWf8P0963ibPaPw\u002fJQoUW5ZT\u002fD93YRjaYpf7Pxhc\u002frCKS\u002fs\u002fwTvoj5J++z\u002fsNh+Svo77P7ux1jAv0fo\u002fRwqxSnMP+z+NZEnChFv7P4V2sKUpgvs\u002f5o\u002f94g0o\u002fD+cOq0at5f8P\u002fCnndfbqPw\u002f1qgXqziT\u002fD8td4SaFvL7P7C\u002f4GSK4\u002fs\u002f22qL1TTQ+z8FYfJON7L7P50awogqKPs\u002fVRDPYPUh+z8ZpybYIZT7P4tEVoKyDPw\u002fWfDMO+to\u002fD\u002frueU9lqD8PzH6WfxQoPw\u002fFGlPDG9n\u002fD\u002fsx67h0lr8P7qpmICH7\u002fs\u002fb++u2PQN\u002fD\u002fKVEZLR\u002fH7Pxn8qRJiHPs\u002fpi4r3Hc3+z83a3rf8o\u002f7P7Aywq2aivs\u002fhkRDPZIT\u002fD9f\u002f86sJUn8P0x1balDBfw\u002f3TTBllj3+z+1SCTwAeH7P+vgBAkEnfw\u002fzd3vmuF5\u002fD+fyxbH5YP8P8e3oRMw0\u002fs\u002f+mIFI3HV+z\u002f6d1F03G78Pw=="},"type":"scatter"},{"line":{"color":"#4C61BF","width":2.5},"mode":"lines","name":"Weighted Median TTM","x":["2021-01-29T00:00:00.000000000","2021-02-26T00:00:00.000000000","2021-03-31T00:00:00.000000000","2021-04-30T00:00:00.000000000","2021-05-31T00:00:00.000000000","2021-06-30T00:00:00.000000000","2021-07-30T00:00:00.000000000","2021-08-31T00:00:00.000000000","2021-09-30T00:00:00.000000000","2021-10-29T00:00:00.000000000","2021-11-30T00:00:00.000000000","2021-12-31T00:00:00.000000000","2022-01-31T00:00:00.000000000","2022-02-28T00:00:00.000000000","2022-03-31T00:00:00.000000000","2022-04-29T00:00:00.000000000","2022-05-31T00:00:00.000000000","2022-06-30T00:00:00.000000000","2022-07-29T00:00:00.000000000","2022-08-31T00:00:00.000000000","2022-09-30T00:00:00.000000000","2022-10-31T00:00:00.000000000","2022-11-30T00:00:00.000000000","2022-12-30T00:00:00.000000000","2023-01-31T00:00:00.000000000","2023-02-28T00:00:00.000000000","2023-03-31T00:00:00.000000000","2023-04-28T00:00:00.000000000","2023-05-31T00:00:00.000000000","2023-06-30T00:00:00.000000000","2023-07-31T00:00:00.000000000","2023-08-31T00:00:00.000000000","2023-09-29T00:00:00.000000000","2023-10-31T00:00:00.000000000","2023-11-30T00:00:00.000000000","2023-12-29T00:00:00.000000000","2024-01-31T00:00:00.000000000","2024-02-29T00:00:00.000000000","2024-03-29T00:00:00.000000000","2024-04-30T00:00:00.000000000","2024-05-31T00:00:00.000000000","2024-06-28T00:00:00.000000000","2024-07-31T00:00:00.000000000","2024-08-30T00:00:00.000000000","2024-09-30T00:00:00.000000000","2024-10-31T00:00:00.000000000","2024-11-29T00:00:00.000000000","2024-12-31T00:00:00.000000000","2025-01-31T00:00:00.000000000","2025-02-28T00:00:00.000000000","2025-03-31T00:00:00.000000000","2025-04-30T00:00:00.000000000","2025-05-30T00:00:00.000000000","2025-06-30T00:00:00.000000000","2025-07-31T00:00:00.000000000","2025-08-29T00:00:00.000000000","2025-09-30T00:00:00.000000000","2025-10-31T00:00:00.000000000","2025-11-28T00:00:00.000000000","2025-12-31T00:00:00.000000000","2026-01-30T00:00:00.000000000","2026-02-27T00:00:00.000000000"],"y":{"dtype":"f8","bdata":"xRZGsAqX+j8oTnruUz36P09A7Z7BU\u002fo\u002fMZpQ5OVg+z\u002fm21V+08X7P6dKvvplEvs\u002fdjJgTy9q+j+Gha4sneP5P2O5Jnf4Xvo\u002fY7kmd\u002fhe+j\u002fB8Fq1QQX6P5n+5wTU7vk\u002fe1hLSvj7+j+Kq5knZnX6P92Pf4hBovo\u002f5ttVftPF+z\u002f6VI9WCtH7P1iMw5RTd\u002fs\u002fe1hLSvj7+j+tdyHdCvr5P613Id0K+vk\u002fgV\u002fDMdRR+T+V2PwJC135P1FHZYadqfg\u002fhoWuLJ3j+T9juSZ3+F76P54k0\u002f+cgPo\u002fnB1bGMEq\u002fD8OzsguQdz7P+bbVX7Txfs\u002fzjwxq9Mo+z+eJNP\u002fnID6P4qrmSdmdfo\u002fwfBatUEF+j9ekzt8L835P5XY\u002fAkLXfk\u002f6OLNZa8b+j8FgvI4r7j6Pwmo3TN4Svs\u002fxA\u002fOyC5B\u002fD9hsq6PHAn8PzrAO9+u8vs\u002fCajdM3hK+z8JqN0zeEr7P7KdDNjTi\u002fo\u002fKE567lM9+j8oTnruUz36P2nmiVmdRvk\u002fwfBatUEF+j+Gha4sneP5P+jizWWvG\u002fo\u002fMZpQ5OVg+z9EE4q8HGz7Pxj7KxHmw\u002fo\u002fZ98RcsHw+j\u002fxCLlgeK36P4R+NkXBjfs\u002f9i6kW0E\u002f+z8mRwIHeOf7Px0hFwyvVfs\u002fLHRl6RzP+j8Y+ysR5sP6Pw=="},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"margin":{"l":40,"r":25,"t":50,"b":40},"legend":{"orientation":"h","yanchor":"bottom","y":1.02,"xanchor":"right","x":1},"title":{"text":"TTM Profile Over Time"},"height":420,"hovermode":"x unified","paper_bgcolor":"white","plot_bgcolor":"white"},                        {"responsive": true}                    )                };            </script>        </div></div>
+                <div class="chart-box"><div>                            <div id="889ef1a4-7c56-43c5-96f1-d3e55ba21132" class="plotly-graph-div" style="height:380px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("889ef1a4-7c56-43c5-96f1-d3e55ba21132")) {                    Plotly.newPlot(                        "889ef1a4-7c56-43c5-96f1-d3e55ba21132",                        [{"line":{"width":2.5},"mode":"lines","name":"Weighted Avg Yield","x":["2021-01-29T00:00:00.000000000","2021-02-26T00:00:00.000000000","2021-03-31T00:00:00.000000000","2021-04-30T00:00:00.000000000","2021-05-31T00:00:00.000000000","2021-06-30T00:00:00.000000000","2021-07-30T00:00:00.000000000","2021-08-31T00:00:00.000000000","2021-09-30T00:00:00.000000000","2021-10-29T00:00:00.000000000","2021-11-30T00:00:00.000000000","2021-12-31T00:00:00.000000000","2022-01-31T00:00:00.000000000","2022-02-28T00:00:00.000000000","2022-03-31T00:00:00.000000000","2022-04-29T00:00:00.000000000","2022-05-31T00:00:00.000000000","2022-06-30T00:00:00.000000000","2022-07-29T00:00:00.000000000","2022-08-31T00:00:00.000000000","2022-09-30T00:00:00.000000000","2022-10-31T00:00:00.000000000","2022-11-30T00:00:00.000000000","2022-12-30T00:00:00.000000000","2023-01-31T00:00:00.000000000","2023-02-28T00:00:00.000000000","2023-03-31T00:00:00.000000000","2023-04-28T00:00:00.000000000","2023-05-31T00:00:00.000000000","2023-06-30T00:00:00.000000000","2023-07-31T00:00:00.000000000","2023-08-31T00:00:00.000000000","2023-09-29T00:00:00.000000000","2023-10-31T00:00:00.000000000","2023-11-30T00:00:00.000000000","2023-12-29T00:00:00.000000000","2024-01-31T00:00:00.000000000","2024-02-29T00:00:00.000000000","2024-03-29T00:00:00.000000000","2024-04-30T00:00:00.000000000","2024-05-31T00:00:00.000000000","2024-06-28T00:00:00.000000000","2024-07-31T00:00:00.000000000","2024-08-30T00:00:00.000000000","2024-09-30T00:00:00.000000000","2024-10-31T00:00:00.000000000","2024-11-29T00:00:00.000000000","2024-12-31T00:00:00.000000000","2025-01-31T00:00:00.000000000","2025-02-28T00:00:00.000000000","2025-03-31T00:00:00.000000000","2025-04-30T00:00:00.000000000","2025-05-30T00:00:00.000000000","2025-06-30T00:00:00.000000000","2025-07-31T00:00:00.000000000","2025-08-29T00:00:00.000000000","2025-09-30T00:00:00.000000000","2025-10-31T00:00:00.000000000","2025-11-28T00:00:00.000000000","2025-12-31T00:00:00.000000000","2026-01-30T00:00:00.000000000","2026-02-27T00:00:00.000000000"],"y":{"dtype":"f8","bdata":"\u002fQChXeLk37+rrO9LuiHcv6YcQLRQxd6\u002f5aUtmM213r8Q1bSKeubev30f8baStt+\u002f5S\u002fa9UzO4b9M62p1dZHhv9SyTZysaOC\u002f+BKKIKEc2b8h1LVxpr\u002fgv1CnlMtgX9y\u002fBVVJ6fno1b+sTb3NHnXGv2e0HUKY38A\u002foLomqapb4D+rN+J2qgXnP4rbSVo2afE\u002fRqOuAirB6T+L9BRORxr6P6pvfXRf8QJAqjq+89ENBEArrLA3yy0EQGQt6uZ\u002fDAhA5Un5nbzIB0DCflLNi3ALQGMye5\u002fn+QhATeyi92xXCUDw6FjU840JQJucjQ0vxAxAgKbzYpLJC0BO+cCWCWULQM00bu9vNA1A8uakAH42DEDYdRgWRzcKQFOH0BqU5AZAQIvwIr5rB0DqPzTJMjEKQKxGkmkTUQlA5zRkURPMCkBp2sBK5s0KQDSRGoSMzglAsgWks+k8B0DVkOiRpewFQNCi9lkcYgNARZyRd3GNBECIK+fFcikCQIu7ZLpLpwJAT1wjnk29AkDZiBYloeUBQMGUK7yS9QFAMkrqJ7O4\u002fz\u002fVtCrAhA4AQNxhX0WDVgBAuNwoWaewAEAclfG0iMQAQKOeu1F4VAFAToQq1QLkAEA\u002fkm+VokkBQCp+YF1sxAFAj8P7OiJEAUBtzelV\u002fvkAQA=="},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"margin":{"l":40,"r":25,"t":50,"b":40},"title":{"text":"Weighted Average Yield"},"height":380,"hovermode":"x unified","paper_bgcolor":"white","plot_bgcolor":"white"},                        {"responsive": true}                    )                };            </script>        </div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Yearly Metrics</h2>
+            <div class="table-wrap">
+                <table class="dataframe report-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Year</th>
+      <th>Return</th>
+      <th>Volatility</th>
+      <th>Avg Yield</th>
+      <th>Avg TTM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021</td>
+      <td>-0.49%</td>
+      <td>0.31%</td>
+      <td>-0.49</td>
+      <td>1.73y</td>
+    </tr>
+    <tr>
+      <td>2022</td>
+      <td>-4.10%</td>
+      <td>1.64%</td>
+      <td>1.23</td>
+      <td>1.73y</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>3.44%</td>
+      <td>1.51%</td>
+      <td>3.31</td>
+      <td>1.74y</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>3.48%</td>
+      <td>0.96%</td>
+      <td>2.88</td>
+      <td>1.75y</td>
+    </tr>
+    <tr>
+      <td>2025</td>
+      <td>2.43%</td>
+      <td>0.70%</td>
+      <td>2.14</td>
+      <td>1.75y</td>
+    </tr>
+    <tr>
+      <td>2026</td>
+      <td>0.54%</td>
+      <td>0.36%</td>
+      <td>2.14</td>
+      <td>1.76y</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Rebalance Statistics</h2>
+            <div class="table-wrap">
+                <table class="dataframe report-table fixed-layout">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Date</th>
+      <th># Bonds</th>
+      <th># Issuers</th>
+      <th>Weighted Avg Yield</th>
+      <th>Weighted Avg Ttm</th>
+      <th>Turnover</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021-01-29</td>
+      <td>1,216</td>
+      <td>537</td>
+      <td>-0.50</td>
+      <td>1.72</td>
+      <td>0.00%</td>
+    </tr>
+    <tr>
+      <td>2021-02-26</td>
+      <td>1,224</td>
+      <td>541</td>
+      <td>-0.44</td>
+      <td>1.72</td>
+      <td>15.25%</td>
+    </tr>
+    <tr>
+      <td>2021-03-31</td>
+      <td>1,220</td>
+      <td>543</td>
+      <td>-0.48</td>
+      <td>1.74</td>
+      <td>23.40%</td>
+    </tr>
+    <tr>
+      <td>2021-04-30</td>
+      <td>1,234</td>
+      <td>544</td>
+      <td>-0.48</td>
+      <td>1.75</td>
+      <td>19.93%</td>
+    </tr>
+    <tr>
+      <td>2021-05-31</td>
+      <td>1,278</td>
+      <td>554</td>
+      <td>-0.48</td>
+      <td>1.76</td>
+      <td>20.24%</td>
+    </tr>
+    <tr>
+      <td>2021-06-30</td>
+      <td>1,292</td>
+      <td>554</td>
+      <td>-0.50</td>
+      <td>1.73</td>
+      <td>11.84%</td>
+    </tr>
+    <tr>
+      <td>2021-07-30</td>
+      <td>1,323</td>
+      <td>565</td>
+      <td>-0.56</td>
+      <td>1.72</td>
+      <td>13.75%</td>
+    </tr>
+    <tr>
+      <td>2021-08-31</td>
+      <td>1,312</td>
+      <td>562</td>
+      <td>-0.55</td>
+      <td>1.69</td>
+      <td>12.67%</td>
+    </tr>
+    <tr>
+      <td>2021-09-30</td>
+      <td>1,318</td>
+      <td>579</td>
+      <td>-0.51</td>
+      <td>1.74</td>
+      <td>21.34%</td>
+    </tr>
+    <tr>
+      <td>2021-10-29</td>
+      <td>1,319</td>
+      <td>584</td>
+      <td>-0.39</td>
+      <td>1.76</td>
+      <td>18.40%</td>
+    </tr>
+    <tr>
+      <td>2021-11-30</td>
+      <td>1,333</td>
+      <td>595</td>
+      <td>-0.52</td>
+      <td>1.73</td>
+      <td>14.59%</td>
+    </tr>
+    <tr>
+      <td>2021-12-31</td>
+      <td>1,342</td>
+      <td>598</td>
+      <td>-0.44</td>
+      <td>1.70</td>
+      <td>11.30%</td>
+    </tr>
+    <tr>
+      <td>2022-01-31</td>
+      <td>1,350</td>
+      <td>602</td>
+      <td>-0.34</td>
+      <td>1.70</td>
+      <td>14.67%</td>
+    </tr>
+    <tr>
+      <td>2022-02-28</td>
+      <td>1,368</td>
+      <td>595</td>
+      <td>-0.18</td>
+      <td>1.70</td>
+      <td>14.03%</td>
+    </tr>
+    <tr>
+      <td>2022-03-31</td>
+      <td>1,382</td>
+      <td>601</td>
+      <td>0.13</td>
+      <td>1.75</td>
+      <td>21.93%</td>
+    </tr>
+    <tr>
+      <td>2022-04-29</td>
+      <td>1,406</td>
+      <td>601</td>
+      <td>0.51</td>
+      <td>1.76</td>
+      <td>16.35%</td>
+    </tr>
+    <tr>
+      <td>2022-05-31</td>
+      <td>1,413</td>
+      <td>603</td>
+      <td>0.72</td>
+      <td>1.78</td>
+      <td>17.14%</td>
+    </tr>
+    <tr>
+      <td>2022-06-30</td>
+      <td>1,399</td>
+      <td>600</td>
+      <td>1.09</td>
+      <td>1.78</td>
+      <td>14.90%</td>
+    </tr>
+    <tr>
+      <td>2022-07-29</td>
+      <td>1,410</td>
+      <td>610</td>
+      <td>0.80</td>
+      <td>1.77</td>
+      <td>13.32%</td>
+    </tr>
+    <tr>
+      <td>2022-08-31</td>
+      <td>1,407</td>
+      <td>608</td>
+      <td>1.63</td>
+      <td>1.72</td>
+      <td>7.70%</td>
+    </tr>
+    <tr>
+      <td>2022-09-30</td>
+      <td>1,403</td>
+      <td>609</td>
+      <td>2.37</td>
+      <td>1.71</td>
+      <td>11.60%</td>
+    </tr>
+    <tr>
+      <td>2022-10-31</td>
+      <td>1,395</td>
+      <td>616</td>
+      <td>2.51</td>
+      <td>1.72</td>
+      <td>25.82%</td>
+    </tr>
+    <tr>
+      <td>2022-11-30</td>
+      <td>1,407</td>
+      <td>622</td>
+      <td>2.52</td>
+      <td>1.72</td>
+      <td>16.00%</td>
+    </tr>
+    <tr>
+      <td>2022-12-30</td>
+      <td>1,423</td>
+      <td>624</td>
+      <td>3.01</td>
+      <td>1.68</td>
+      <td>7.23%</td>
+    </tr>
+    <tr>
+      <td>2023-01-31</td>
+      <td>1,421</td>
+      <td>626</td>
+      <td>2.97</td>
+      <td>1.69</td>
+      <td>18.18%</td>
+    </tr>
+    <tr>
+      <td>2023-02-28</td>
+      <td>1,442</td>
+      <td>627</td>
+      <td>3.43</td>
+      <td>1.71</td>
+      <td>16.72%</td>
+    </tr>
+    <tr>
+      <td>2023-03-31</td>
+      <td>1,459</td>
+      <td>625</td>
+      <td>3.12</td>
+      <td>1.72</td>
+      <td>19.23%</td>
+    </tr>
+    <tr>
+      <td>2023-04-28</td>
+      <td>1,491</td>
+      <td>640</td>
+      <td>3.17</td>
+      <td>1.76</td>
+      <td>20.98%</td>
+    </tr>
+    <tr>
+      <td>2023-05-31</td>
+      <td>1,498</td>
+      <td>642</td>
+      <td>3.19</td>
+      <td>1.79</td>
+      <td>19.75%</td>
+    </tr>
+    <tr>
+      <td>2023-06-30</td>
+      <td>1,528</td>
+      <td>664</td>
+      <td>3.60</td>
+      <td>1.79</td>
+      <td>16.07%</td>
+    </tr>
+    <tr>
+      <td>2023-07-31</td>
+      <td>1,527</td>
+      <td>662</td>
+      <td>3.47</td>
+      <td>1.79</td>
+      <td>14.94%</td>
+    </tr>
+    <tr>
+      <td>2023-08-31</td>
+      <td>1,537</td>
+      <td>666</td>
+      <td>3.42</td>
+      <td>1.75</td>
+      <td>9.02%</td>
+    </tr>
+    <tr>
+      <td>2023-09-29</td>
+      <td>1,555</td>
+      <td>672</td>
+      <td>3.65</td>
+      <td>1.74</td>
+      <td>13.14%</td>
+    </tr>
+    <tr>
+      <td>2023-10-31</td>
+      <td>1,587</td>
+      <td>676</td>
+      <td>3.53</td>
+      <td>1.74</td>
+      <td>15.63%</td>
+    </tr>
+    <tr>
+      <td>2023-11-30</td>
+      <td>1,601</td>
+      <td>681</td>
+      <td>3.28</td>
+      <td>1.73</td>
+      <td>13.62%</td>
+    </tr>
+    <tr>
+      <td>2023-12-29</td>
+      <td>1,601</td>
+      <td>680</td>
+      <td>2.86</td>
+      <td>1.70</td>
+      <td>10.12%</td>
+    </tr>
+    <tr>
+      <td>2024-01-31</td>
+      <td>1,618</td>
+      <td>687</td>
+      <td>2.93</td>
+      <td>1.70</td>
+      <td>17.27%</td>
+    </tr>
+    <tr>
+      <td>2024-02-29</td>
+      <td>1,640</td>
+      <td>690</td>
+      <td>3.27</td>
+      <td>1.72</td>
+      <td>19.01%</td>
+    </tr>
+    <tr>
+      <td>2024-03-29</td>
+      <td>1,644</td>
+      <td>696</td>
+      <td>3.16</td>
+      <td>1.75</td>
+      <td>19.26%</td>
+    </tr>
+    <tr>
+      <td>2024-04-30</td>
+      <td>1,636</td>
+      <td>692</td>
+      <td>3.35</td>
+      <td>1.78</td>
+      <td>20.07%</td>
+    </tr>
+    <tr>
+      <td>2024-05-31</td>
+      <td>1,667</td>
+      <td>694</td>
+      <td>3.35</td>
+      <td>1.79</td>
+      <td>17.16%</td>
+    </tr>
+    <tr>
+      <td>2024-06-28</td>
+      <td>1,693</td>
+      <td>713</td>
+      <td>3.23</td>
+      <td>1.79</td>
+      <td>12.88%</td>
+    </tr>
+    <tr>
+      <td>2024-07-31</td>
+      <td>1,700</td>
+      <td>707</td>
+      <td>2.90</td>
+      <td>1.78</td>
+      <td>15.11%</td>
+    </tr>
+    <tr>
+      <td>2024-08-30</td>
+      <td>1,700</td>
+      <td>705</td>
+      <td>2.74</td>
+      <td>1.77</td>
+      <td>17.04%</td>
+    </tr>
+    <tr>
+      <td>2024-09-30</td>
+      <td>1,735</td>
+      <td>710</td>
+      <td>2.42</td>
+      <td>1.75</td>
+      <td>11.85%</td>
+    </tr>
+    <tr>
+      <td>2024-10-31</td>
+      <td>1,761</td>
+      <td>718</td>
+      <td>2.57</td>
+      <td>1.75</td>
+      <td>17.17%</td>
+    </tr>
+    <tr>
+      <td>2024-11-29</td>
+      <td>1,788</td>
+      <td>726</td>
+      <td>2.27</td>
+      <td>1.75</td>
+      <td>11.94%</td>
+    </tr>
+    <tr>
+      <td>2024-12-31</td>
+      <td>1,791</td>
+      <td>729</td>
+      <td>2.33</td>
+      <td>1.69</td>
+      <td>8.26%</td>
+    </tr>
+    <tr>
+      <td>2025-01-31</td>
+      <td>1,815</td>
+      <td>719</td>
+      <td>2.34</td>
+      <td>1.70</td>
+      <td>16.16%</td>
+    </tr>
+    <tr>
+      <td>2025-02-28</td>
+      <td>1,840</td>
+      <td>724</td>
+      <td>2.24</td>
+      <td>1.72</td>
+      <td>16.58%</td>
+    </tr>
+    <tr>
+      <td>2025-03-31</td>
+      <td>1,843</td>
+      <td>724</td>
+      <td>2.24</td>
+      <td>1.72</td>
+      <td>14.91%</td>
+    </tr>
+    <tr>
+      <td>2025-04-30</td>
+      <td>1,842</td>
+      <td>726</td>
+      <td>1.98</td>
+      <td>1.75</td>
+      <td>21.63%</td>
+    </tr>
+    <tr>
+      <td>2025-05-30</td>
+      <td>1,830</td>
+      <td>722</td>
+      <td>2.01</td>
+      <td>1.77</td>
+      <td>16.56%</td>
+    </tr>
+    <tr>
+      <td>2025-06-30</td>
+      <td>1,809</td>
+      <td>712</td>
+      <td>2.04</td>
+      <td>1.75</td>
+      <td>12.67%</td>
+    </tr>
+    <tr>
+      <td>2025-07-31</td>
+      <td>1,830</td>
+      <td>719</td>
+      <td>2.09</td>
+      <td>1.75</td>
+      <td>16.28%</td>
+    </tr>
+    <tr>
+      <td>2025-08-29</td>
+      <td>1,817</td>
+      <td>718</td>
+      <td>2.10</td>
+      <td>1.74</td>
+      <td>14.20%</td>
+    </tr>
+    <tr>
+      <td>2025-09-30</td>
+      <td>1,814</td>
+      <td>713</td>
+      <td>2.17</td>
+      <td>1.79</td>
+      <td>25.87%</td>
+    </tr>
+    <tr>
+      <td>2025-10-31</td>
+      <td>1,797</td>
+      <td>711</td>
+      <td>2.11</td>
+      <td>1.78</td>
+      <td>16.31%</td>
+    </tr>
+    <tr>
+      <td>2025-11-28</td>
+      <td>1,796</td>
+      <td>719</td>
+      <td>2.16</td>
+      <td>1.78</td>
+      <td>14.33%</td>
+    </tr>
+    <tr>
+      <td>2025-12-31</td>
+      <td>1,787</td>
+      <td>718</td>
+      <td>2.22</td>
+      <td>1.74</td>
+      <td>9.59%</td>
+    </tr>
+    <tr>
+      <td>2026-01-30</td>
+      <td>1,769</td>
+      <td>710</td>
+      <td>2.16</td>
+      <td>1.74</td>
+      <td>14.75%</td>
+    </tr>
+    <tr>
+      <td>2026-02-27</td>
+      <td>1,757</td>
+      <td>694</td>
+      <td>2.12</td>
+      <td>1.78</td>
+      <td>18.64%</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>Disclaimer:</strong> This backtest report is for informational purposes only and does not constitute investment advice.
+            Past performance is not indicative of future results. The figures shown are based on historical simulations and may
+            contain assumptions, simplifications, or data limitations.
+        </div>
+    </div>
+</body>
+</html>
